@@ -8,7 +8,7 @@ from scipy.io import savemat
 from M5_Network import m6_res
 from KalmanFiltering import KalmanFiltering
 
-
+# [1]GFANC-Kalman: Generative Fixed-Filter Active Noise Control With CNN-Kalman Filtering, 
 #-------------------------------------------------------------
 # Function: load_weight_for_model()
 # Loading pre-trained weights to model
@@ -19,7 +19,6 @@ def load_weigth_for_model(model, pretrained_path, device):
     for k, v in model_dict.items():
         model_dict[k] = pretrained_dict[k]
     model.load_state_dict(model_dict)
-
     
 def Load_Pretrained_filters_to_tensor(MAT_FILE):
     mat_contents = sio.loadmat(MAT_FILE)
@@ -30,12 +29,11 @@ def minmaxscaler(data):
     min = data.min()
     max = data.max()    
     return (data)/(max-min)
-
-
+# （10） of  [1]
 
 # the input and output of Kalman filter is hard label
 def Construct_filter(sub_filters, hard_labels_pre, soft_labels_now, P):
-    z = soft_labels_now >= 0.3 # !!!threshold
+    z = soft_labels_now >= 0.3 # !!!threshold  check resource 
     kf = KalmanFiltering(dim_x=15, dim_z=15, F=None, H=None, Q=None, R=None, x=hard_labels_pre, P=P)
     kf.update(z)
     soft_labels, P = kf.get_state() # update weight_vector and Covariance_matrix
@@ -47,7 +45,6 @@ def Construct_filter(sub_filters, hard_labels_pre, soft_labels_now, P):
     novel_filter = np.matmul(hard_labels, sub_filters)
     return novel_filter, hard_labels, P
 
-
 #-------------------------------------------------------------
 # Function: multiple length of samples
 #-------------------------------------------------------------
@@ -55,7 +52,6 @@ def Casting_multiple_time_length_of_primary_noise(primary_noise, fs):
     assert  primary_noise.shape[0] == 1, 'The dimension of the primary noise should be [1 x samples] !!!'
     cast_len = primary_noise.shape[1] - primary_noise.shape[1]%fs
     return primary_noise[:,:cast_len] # make the length of primary_noise is an integer multiple of fs
-
 
 #------------------------------------------------------------
 # Function : Generating the testing bordband noise 
@@ -71,7 +67,6 @@ def Generating_boardband_noise_wavefrom_tensor(Wc_F, Seconds, fs):
     yout = yout/np.sqrt(np.var(yout))
     # return a tensor of [1 x sample rate]
     return torch.from_numpy(yout).type(torch.float).unsqueeze(0)
-
 
 #-------------------------------------------------------------
 # Class : Control_filter_Index_predictor

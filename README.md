@@ -1,4 +1,4 @@
-# GFANC-Kalman: Generative Fixed-Filter Active Noise Control with CNN-Kalman Filtering (GFANC-Kalman)
+  # GFANC-Kalman: Generative Fixed-Filter Active Noise Control with CNN-Kalman Filtering (GFANC-Kalman)
 
 This is the code of the paper 'GFANC-Kalman: Generative Fixed-Filter Active Noise Control with CNN-Kalman Filtering' accepted by IEEE Signal Processing Letters. You can find the paper at [Researchgate](https://www.researchgate.net/publication/375695028_GFANC-Kalman_Generative_Fixed-Filter_Active_Noise_Control_with_CNN-Kalman_Filtering) or [Ieee xplore](https://ieeexplore.ieee.org/document/10323505).
 
